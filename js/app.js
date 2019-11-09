@@ -145,11 +145,12 @@ function resetGame(gameResult) {
         overlay.classList.remove(gameResult);
 
         //Trying to remove existing li elements
-        for (let i = 0; i < letters.length; i++) {
-            letters[i].remove();
+        // for (let i = 0; i < ul.length; i++) {
+        //     ul[i].remove();
             // console.log(ul.length);
             // console.log(ul.firstElementChild);
-        }
+        // }
+        letters.remove();
 
         for (let i = 0; i < keyboard.length; i++) {
             keyboard[i].classList.remove('chosen');
