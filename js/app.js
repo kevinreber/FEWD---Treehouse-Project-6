@@ -1,7 +1,10 @@
 const qwerty = document.getElementById('qwerty');
+const keyboard = document.querySelectorAll('#qwerty button');
 const phrase = document.getElementById('phrase');
 const ul = document.querySelector('#phrase ul');
 const overlay = document.getElementById('overlay');
+const title = document.querySelector('.title');
+const gameButton = document.querySelector('#overlay a');
 const hearts = document.querySelectorAll('img');
 const phrases = [
     "Knuckle Down",
@@ -25,8 +28,9 @@ let missed = 0;
 
 //This event hides overlay when startButton is clicked
 overlay.addEventListener('click', (e) => {
-    if (event.target.className === 'btn__reset') {
+    if (event.target.className === 'game-button') {
         overlay.style.display = 'none';
+        overlay.classList.remove('start');
     }
     addPhraseToDisplay(phrases);
 });
@@ -77,16 +81,30 @@ qwerty.addEventListener('click', (e) => {
     const buttonSelected = e.target;
     //if type is a button
     if (buttonSelected.tagName === 'BUTTON') {
-        buttonSelected.classList.add('chosen');
-        buttonSelected.setAttribute('disabled', true);
-        let letterFound = checkLetter(buttonSelected.textContent);
-        if (letterFound === null) {
-            removeHeart();
-        }
+        compareUserInput(buttonSelected);
     }
-    checkWin();
 });
 
+//This event listens when the user's keyboard is pressed
+document.addEventListener('keydown', (e) => {
+    const keyPressed = e.key;
+    for (let i = 0; i < keyboard.length; i++) {
+        let buttonText = keyboard[i].textContent;
+        if (keyPressed === buttonText) {
+            compareUserInput(keyboard[i]);
+        }
+    }
+});
+
+function compareUserInput(userInput) {
+    userInput.classList.add('chosen');
+    userInput.setAttribute('disabled', true);
+    let letterFound = checkLetter(userInput.textContent);
+    if (letterFound === null) {
+        removeHeart();
+    }
+    checkWin();
+}
 
 function removeHeart() {
     let heart = hearts[missed];
@@ -94,39 +112,51 @@ function removeHeart() {
     missed++;
 }
 
+function resetHeart() {
+    for (let i = 0; i < hearts.length; i++) {
+        hearts[i].setAttribute('src', 'images/liveHeart.png')
+        missed = 0;
+    }
+}
+
 function checkWin() {
     const phraseLetters = document.getElementsByClassName('show');
     const listLetters = document.getElementsByClassName('letter');
 
     if (missed === 5) {
-        overlay.classList.remove('start');
-        overlay.classList.add('lose');
+        results('lose', 'YOU LOSE!')
     } else if (phraseLetters.length === listLetters.length) {
-        overlay.classList.add('win');
+        results('win', 'YOU WIN!');
     }
-    //compare number of letters with class .show to number of letters with class .letters
-    //if equal, overlay .win class and WIN textContent
 }
 
-
-function resetGame() {
-    //remove all add classes
-    //reset all scores
+function results(result, screenText) {
+    overlay.style.display = '';
+    overlay.classList.add(result);
+    title.textContent = screenText;
+    resetGame(result);
 }
 
+function resetGame(gameResult) {
+    gameButton.textContent = 'Play Again?';
+    let letters = document.querySelectorAll('ul li');
 
+    gameButton.addEventListener('click', () => {
+        overlay.classList.remove(gameResult);
 
+        //Trying to remove existing li elements
+        for (let i = 0; i < letters.length; i++) {
+            letters[i].remove();
+            // console.log(ul.length);
+            // console.log(ul.firstElementChild);
+        }
 
+        for (let i = 0; i < keyboard.length; i++) {
+            keyboard[i].classList.remove('chosen');
+            keyboard[i].setAttribute('disabled', false);
+        }
 
-
-
-
-
-
-
-
-
-// //This listens for a keydown event to occur and logs the key that is pressed
-// document.addEventListener('keydown', (e) => {
-//     console.log(e.key);
-// });
+        addPhraseToDisplay(phrases);
+        resetHeart();
+    });
+}
