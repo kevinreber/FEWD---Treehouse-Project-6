@@ -4,8 +4,9 @@ const phrase = document.getElementById('phrase');
 const ul = document.querySelector('#phrase ul');
 const overlay = document.getElementById('overlay');
 const title = document.querySelector('.title');
-const gameButton = document.querySelector('#overlay a');
+const gameButton = document.querySelector('.game-button');
 const hearts = document.querySelectorAll('img');
+const header = document.querySelector('.header');
 const phrases = [
     "Knuckle Down",
     "Should Have Could Have",
@@ -16,25 +17,46 @@ const phrases = [
     "Down For The Count",
     "Fit as a Fiddle",
     "Would Harm a Fly",
-    "Back To the Drawing Board",
+    "Wander More",
     "Shot In the Dark",
-    "Cut The Mustard",
+    "I Like Turtles",
     "Jig Is Up",
     "Party like a Rockstar",
     "Doses and Mimosas"
 ];
-let missed = 0;
+let lives = 5;
 
-
+//<------------- EVENT LISTENERS ------------->//
 //This event hides overlay when startButton is clicked
 overlay.addEventListener('click', (e) => {
     if (event.target.className === 'game-button') {
         overlay.style.display = 'none';
-        overlay.classList.remove('start');
+        overlay.classList.remove('start')
+        header.style.animation = 'float 3s linear infinite';
     }
     addPhraseToDisplay(phrases);
 });
 
+qwerty.addEventListener('click', (e) => {
+    const buttonSelected = e.target;
+    //if type is a button
+    if (buttonSelected.tagName === 'BUTTON') {
+        compareUserInput(buttonSelected);
+    }
+});
+
+//This event listens when the user's keyboard is pressed
+document.addEventListener('keydown', (e) => {
+    const keyPressed = e.key;
+    for (let i = 0; i < keyboard.length; i++) {
+        let buttonText = keyboard[i].textContent;
+        if (keyPressed === buttonText) {
+            compareUserInput(keyboard[i]);
+        }
+    }
+});
+
+//<---------------- FUNCTIONS ---------------->//
 //This function randomly selects a phrase from the phrases array
 function getRandomPhraseAsArray(arr) {
     let randomNum = Math.random();
@@ -77,53 +99,31 @@ function checkLetter(userInput) {
     return matched;
 }
 
-qwerty.addEventListener('click', (e) => {
-    const buttonSelected = e.target;
-    //if type is a button
-    if (buttonSelected.tagName === 'BUTTON') {
-        compareUserInput(buttonSelected);
-    }
-});
-
-//This event listens when the user's keyboard is pressed
-document.addEventListener('keydown', (e) => {
-    const keyPressed = e.key;
-    for (let i = 0; i < keyboard.length; i++) {
-        let buttonText = keyboard[i].textContent;
-        if (keyPressed === buttonText) {
-            compareUserInput(keyboard[i]);
-        }
-    }
-});
-
 function compareUserInput(userInput) {
-    userInput.classList.add('chosen');
+    
     userInput.setAttribute('disabled', true);
     let letterFound = checkLetter(userInput.textContent);
+    if(letterFound){
+        userInput.classList.add('correct');
+    }
     if (letterFound === null) {
+        userInput.classList.add('wrong');
         removeHeart();
     }
     checkWin();
 }
 
 function removeHeart() {
-    let heart = hearts[missed];
+    let heart = hearts[lives-1];
     heart.setAttribute('src', 'images/lostHeart.png');
-    missed++;
-}
-
-function resetHeart() {
-    for (let i = 0; i < hearts.length; i++) {
-        hearts[i].setAttribute('src', 'images/liveHeart.png')
-        missed = 0;
-    }
+    lives--;
 }
 
 function checkWin() {
     const phraseLetters = document.getElementsByClassName('show');
     const listLetters = document.getElementsByClassName('letter');
-
-    if (missed === 5) {
+    gameButton.textContent = 'Play Again?';
+    if (lives === 0) {
         results('lose', 'YOU LOSE!')
     } else if (phraseLetters.length === listLetters.length) {
         results('win', 'YOU WIN!');
@@ -138,26 +138,8 @@ function results(result, screenText) {
 }
 
 function resetGame(gameResult) {
-    gameButton.textContent = 'Play Again?';
-    let letters = document.querySelectorAll('ul li');
-
+    //refreshes game page
     gameButton.addEventListener('click', () => {
-        overlay.classList.remove(gameResult);
-
-        //Trying to remove existing li elements
-        // for (let i = 0; i < ul.length; i++) {
-        //     ul[i].remove();
-            // console.log(ul.length);
-            // console.log(ul.firstElementChild);
-        // }
-        letters.remove();
-
-        for (let i = 0; i < keyboard.length; i++) {
-            keyboard[i].classList.remove('chosen');
-            keyboard[i].setAttribute('disabled', false);
-        }
-
-        addPhraseToDisplay(phrases);
-        resetHeart();
+        location.reload(true);
     });
 }
