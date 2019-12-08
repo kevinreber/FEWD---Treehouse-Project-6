@@ -2,7 +2,6 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans:400,700&Roboto:300');
 
 /* Variables */
-
 :root {
   --color-win: #78CF82;
   --color-lose: #D94545;
@@ -17,7 +16,6 @@
 }
 
 /* main */
-
 * {
   box-sizing: border-box;
   font-family: 'Open Sans', sans-serif;
@@ -74,14 +72,12 @@ button {
 }
 
 /* Title */
-
 .header {
   color: rgb(248, 234, 108);
   -webkit-text-stroke: 1px goldenrod;
 }
 
 /* Phrase */
-
 .letter {
   font-size: var(--font-size-medium);
   height: 65px;
@@ -108,7 +104,6 @@ button {
 }
 
 /* Keyboard */
-
 .keyrow {
   display: flex;
   justify-content: center;
@@ -147,7 +142,7 @@ button {
   transform: scale(1.2);
   animation-play-state: paused;
   cursor: pointer;
-  color: goldenrod);
+  color: goldenrod;
   background: white;
   box-shadow: 6px 6px 25px rgb(248, 234, 108), -6px -6px 25px rgb(248, 234, 108);
   -webkit-text-stroke: 0;
@@ -155,7 +150,6 @@ button {
 }
 
 /* Overlay */
-
 #overlay {
   display: flex;
   flex-direction: column;
@@ -180,11 +174,11 @@ button {
 }
 
 .start {
-  background-color: var(--color-start);
+  background-image: radial-gradient(circle, #fff 10%, var(--color-start));
 }
 
 .win {
-  background-color: var(--color-win);
+  background-image: radial-gradient(circle, #fff 10%, var(--color-win));
 }
 
 .win a {
@@ -192,7 +186,7 @@ button {
 }
 
 .lose {
-  background-color: var(--color-lose);
+  background-image: radial-gradient(circle, #fff 10%, var(--color-lose));
 }
 
 .lose a {
@@ -200,7 +194,6 @@ button {
 }
 
 /* Keyframes */
-
 @keyframes selected {
   50% {
     transform: scale(1.1);

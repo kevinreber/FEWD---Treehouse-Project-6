@@ -9,18 +9,18 @@ const hearts = document.querySelectorAll('img');
 const header = document.querySelector('.header');
 const phrases = [
     "Knuckle Down",
-    "Should Have Could Have",
-    "Lovey Dovey",
+    "I Will Be Back",
+    "Lovey Duvy",
     "Fight Club",
     "Gotta Catch em All",
     "Break The Ice",
     "Down For The Count",
-    "Fit as a Fiddle",
-    "Would Harm a Fly",
+    "Pumping Iron",
+    "Would Not Harm a Fly",
     "Wander More",
-    "Shot In the Dark",
+    "Eloquent Javascript",
     "I Like Turtles",
-    "Jig Is Up",
+    "The Jig Is Up",
     "Party like a Rockstar",
     "Doses and Mimosas"
 ];
@@ -140,6 +140,6 @@ function results(result, screenText) {
 function resetGame(gameResult) {
     //refreshes game page
     gameButton.addEventListener('click', () => {
-        location.reload(true);
+        window.location.reload();
     });
 }
