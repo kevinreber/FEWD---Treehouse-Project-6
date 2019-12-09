@@ -100,10 +100,10 @@ function checkLetter(userInput) {
 }
 
 function compareUserInput(userInput) {
-    
+
     userInput.setAttribute('disabled', true);
     let letterFound = checkLetter(userInput.textContent);
-    if(letterFound){
+    if (letterFound) {
         userInput.classList.add('correct');
     }
     if (letterFound === null) {
@@ -114,7 +114,7 @@ function compareUserInput(userInput) {
 }
 
 function removeHeart() {
-    let heart = hearts[lives-1];
+    let heart = hearts[lives - 1];
     heart.setAttribute('src', 'images/lostHeart.png');
     lives--;
 }
@@ -134,12 +134,12 @@ function results(result, screenText) {
     overlay.style.display = '';
     overlay.classList.add(result);
     title.textContent = screenText;
-    resetGame(result);
+    resetGame();
 }
 
-function resetGame(gameResult) {
+function resetGame() {
     //refreshes game page
     gameButton.addEventListener('click', () => {
-        window.location.reload();
+        location.reload();
     });
 }
