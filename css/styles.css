@@ -55,6 +55,7 @@ button {
   -webkit-transition: var(--transition);
   -o-transition: var(--transition);
   transition: var(--transition);
+  cursor: pointer;
 }
 
 .main-container {
@@ -127,28 +128,6 @@ button {
   opacity: .6;
 }
 
-.game-button {
-  padding: 8px;
-  margin: 50px auto;
-  background: rgb(248, 210, 114);
-  color: goldenrod;
-  border: 1px solid rgb(224, 161, 0);;
-  border-radius: 5px;
-  font-size: var(--font-size-medium);
-  animation: float 3s -1.5s linear infinite;
-}
-
-.game-button:hover {
-  transform: scale(1.2);
-  animation-play-state: paused;
-  cursor: pointer;
-  color: goldenrod;
-  background: white;
-  box-shadow: 6px 6px 25px rgb(248, 234, 108), -6px -6px 25px rgb(248, 234, 108);
-  -webkit-text-stroke: 0;
-  border: 3px solid rgb(209, 125, 0);
-}
-
 /* Overlay */
 #overlay {
   display: flex;
@@ -170,7 +149,33 @@ button {
 }
 
 .title {
+margin: 0;
   color: #FFF;
+  display: inline-block;
+  font-size: 48px;
+}
+
+.game-button {
+  display: inline-block;
+  padding: 8px;
+  margin: 32px auto 0 auto;
+  background: rgb(248, 210, 114);
+  color: goldenrod;
+  border: 1px solid rgb(224, 161, 0);
+  border-radius: 5px;
+  font-size: var(--font-size-medium);
+  animation: float 3s -1.5s linear infinite;
+}
+
+.game-button:hover {
+  transform: scale(1.2);
+  animation-play-state: paused;
+  cursor: pointer;
+  color: goldenrod;
+  background: white;
+  box-shadow: 6px 6px 25px rgb(248, 234, 108), -6px -6px 25px rgb(248, 234, 108);
+  -webkit-text-stroke: 0;
+  border: 3px solid rgb(209, 125, 0);
 }
 
 .start {
@@ -191,6 +196,63 @@ button {
 
 .lose a {
   color: var(--color-lose);
+}
+
+
+@media (max-width: 768px) {
+
+  * {
+    overflow: hidden;
+  }
+
+  .header {
+    font-size: 2em;
+  }
+
+  #phrase {
+    width: 95vw;
+    height: 50vh;
+    margin-top: 3rem;
+  }
+
+  ul {
+    margin: 0 auto;
+  }
+
+  .letter {
+    height: 2em;
+    width: 2em;
+    padding: 0;
+    margin: .2rem .1rem;
+  }
+
+  .chosen {
+    font-size: 1rem;
+  }
+
+  button {
+    margin: 2px;
+    padding: 3%;
+    font-size: 1rem;
+  }
+
+  #qwerty {
+    width: 95vw;
+  }
+
+  .tries img {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+
+  .section {
+    padding: 0;
+  }
+
+  #overlay h2 {
+    font-size: 2rem;
+    margin: 1rem;
+  }
 }
 
 /* Keyframes */

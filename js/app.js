@@ -1,7 +1,7 @@
 const qwerty = document.getElementById('qwerty');
 const keyboard = document.querySelectorAll('#qwerty button');
 const phrase = document.getElementById('phrase');
-const ul = document.querySelector('#phrase ul');
+const ul = document.getElementById('phrase-list');
 const overlay = document.getElementById('overlay');
 const title = document.querySelector('.title');
 const gameButton = document.querySelector('.game-button');
@@ -24,22 +24,14 @@ const phrases = [
     "Party like a Rockstar",
     "Doses and Mimosas"
 ];
-let lives = 5;
+let lives;
 
 //<------------- EVENT LISTENERS ------------->//
 //This event hides overlay when startButton is clicked
-overlay.addEventListener('click', (e) => {
-    if (event.target.className === 'game-button') {
-        overlay.style.display = 'none';
-        overlay.classList.remove('start')
-        header.style.animation = 'float 3s linear infinite';
-    }
-    addPhraseToDisplay(phrases);
-});
+overlay.addEventListener('click', startGame);
 
 qwerty.addEventListener('click', (e) => {
     const buttonSelected = e.target;
-    //if type is a button
     if (buttonSelected.tagName === 'BUTTON') {
         compareUserInput(buttonSelected);
     }
@@ -57,6 +49,30 @@ document.addEventListener('keydown', (e) => {
 });
 
 //<---------------- FUNCTIONS ---------------->//
+function clearGame() {
+    ul.innerHTML = '';
+    lives = 5;
+    keyboard.forEach(key => {
+        key.className = '';
+        key.removeAttribute('disabled');
+    });
+
+    hearts.forEach(heart => {
+        heart.setAttribute('src', 'images/liveHeart.png')
+    });
+}
+
+function startGame() {
+    clearGame();
+    if (event.target.className === 'game-button') {
+        overlay.className = '';
+        overlay.style.display = 'none';
+        overlay.classList.remove('start')
+        header.style.animation = 'float 3s linear infinite';
+    }
+    addPhraseToDisplay(phrases);
+}
+
 //This function randomly selects a phrase from the phrases array
 function getRandomPhraseAsArray(arr) {
     let randomNum = Math.random();
@@ -69,14 +85,10 @@ function getRandomPhraseAsArray(arr) {
 //This function adds the selected random phrase to the game screen
 function addPhraseToDisplay(randomPhrase) {
     const phraseArray = getRandomPhraseAsArray(randomPhrase);
-
-    for (let i = 0; i < phraseArray.length; i++) {
-        let character = phraseArray[i].toLowerCase();
-        //create li item to display
-        let listItem = document.createElement('li');
-        //add texContent into listItem
-        listItem.textContent = character;
-
+    phraseArray.map(char => {
+        char = char.toLowerCase();
+        let listItem = document.createElement('li'); //create li item to display
+        listItem.textContent = char; //add texContent into listItem
         ul.appendChild(listItem);
 
         if (listItem.textContent !== ' ') {
@@ -84,7 +96,7 @@ function addPhraseToDisplay(randomPhrase) {
         } else {
             listItem.className = 'space';
         }
-    }
+    });
 }
 
 function checkLetter(userInput) {
@@ -100,7 +112,6 @@ function checkLetter(userInput) {
 }
 
 function compareUserInput(userInput) {
-
     userInput.setAttribute('disabled', true);
     let letterFound = checkLetter(userInput.textContent);
     if (letterFound) {
@@ -134,12 +145,5 @@ function results(result, screenText) {
     overlay.style.display = '';
     overlay.classList.add(result);
     title.textContent = screenText;
-    resetGame();
-}
-
-function resetGame() {
-    //refreshes game page
-    gameButton.addEventListener('click', () => {
-        location.reload();
-    });
+    startGame();
 }
