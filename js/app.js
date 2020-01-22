@@ -78,7 +78,7 @@ function getRandomPhraseAsArray(arr) {
     let randomNum = Math.random();
     let numberOfPhrases = arr.length;
     let selectedPhrase = arr[Math.floor(randomNum * numberOfPhrases)];
-    let characters = selectedPhrase.split('');
+    let characters = [...selectedPhrase];
     return characters;
 }
 
@@ -102,9 +102,9 @@ function addPhraseToDisplay(randomPhrase) {
 function checkLetter(userInput) {
     const letterClass = document.getElementsByClassName('letter');
     let matched = null;
-    for (i = 0; i < letterClass.length; i++) {
-        if (letterClass[i].textContent === userInput.toLowerCase()) {
-            letterClass[i].classList.add('show');
+    for (let letter of letterClass) {
+        if (letter.textContent === userInput.toLowerCase()) {
+            letter.classList.add('show');
             matched = true;
         }
     }
