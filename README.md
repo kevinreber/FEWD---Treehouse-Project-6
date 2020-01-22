@@ -1,7 +1,7 @@
 ## Game Show App
 Wheel of Success is a guessing game where players will click letters from an onscreen keyboard to guess a random phrase. Players can also use their keyboards to select letters.
 
-This project focused on:
+Project Focus:
 - DOM Manipulation
 - CSS Animations 
 
